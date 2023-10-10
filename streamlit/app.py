@@ -482,211 +482,209 @@ with st.echo():
         opt_params = {'criterion': 'mae', 'max_depth': 11, 'max_features': 'auto', 'n_estimators': 130}
 
 st.write("We'll call the regressor, unpacking the parameters in the dictionary above. This may take a few seconds, the regressor is actually running right now.")
-/***
-with st.echo():
-    regr = RandomForestRegressor(random_state=42, **opt_params)
-    regr.fit(X_train, y_train)
+# with st.echo():
+#     regr = RandomForestRegressor(random_state=42, **opt_params)
+#     regr.fit(X_train, y_train)
 
-st.write("Some regressors give you feature importance for free, and it's valueable to look at these values to see which are most influential. We'll look at the Top 5 here.")
-
-
-feats = [x for _, x in sorted(zip(regr.feature_importances_,features),reverse=True)]
-importance = sorted(regr.feature_importances_,reverse=True)
-
-st.write(list(zip(feats, importance))[:5])
-
-dfPlot = pd.DataFrame(list(zip(feats, importance)),
-               columns =['Features', 'Importance'])
-dfPlot['CumSum'] = dfPlot['Importance'].cumsum()
-
-st.write("Next we'll make a Pareto chart with those features that together make up 90% of the importance out of all of them.")
-
-# Get features that make up at least this percentage of importance according to the regressor
-thresh = .9
-thresh_len = len([x for x in np.cumsum(sorted(regr.feature_importances_,reverse=True)) if x <= thresh])
-
-# https://medium.com/analytics-vidhya/creating-a-dual-axis-pareto-chart-in-altair-e3673107dd14
-sort_order = dfPlot["Features"].tolist()
-# The base element adds data (the dataframe) to the Chart
-# The categories of complaints are positioned along the X axis
-base = alt.Chart(dfPlot.head(thresh_len+1), title="Pareto chart for top " + str(thresh_len+1) + " features from " + which).encode(
-    x = alt.X("Features:O",sort=sort_order),
-).properties (
-width = 600, 
-height = 500
-)
-# Create the bars with length encoded along the Y axis 
-bars = base.mark_bar(size = 30).encode(
-    y = alt.Y("Importance:Q"),
-).properties (
-width = 600
-)
-# Create the line chart with length encoded along the Y axis
-line = base.mark_line(
-                       strokeWidth= 1.5,
-                       color = "#cb4154" 
-).encode(
-    y=alt.Y('CumSum:Q',
-             title='Cumulative Importance',
-             axis=alt.Axis(format=".0%")   ),
-    text = alt.Text('CumSum:Q')
-)
-# Mark the percentage values on the line with Circle marks
-points = base.mark_circle(
-              strokeWidth= 3,
-              color = "#cb4154" 
-).encode(
-         y=alt.Y('CumSum:Q', axis=None),
-)
-# Mark the bar marks with the value text
-bar_text = bars.mark_text(
-    align='left',
-    baseline='middle',
-    dx=-10,  #the dx and dy can be manipulated to position text
-    dy = -10, #relative to the bar
-).encode(
-    y= alt.Y('Importance:Q', axis=None),
-    # we'll use the percentage as the text
-    text=alt.Text('Importance:Q', format="0.2f"),
-    color= alt.value("#000000")
-)
-
-# Mark the Circle marks with the value text
-point_text = points.mark_text(
-    align='left',
-    baseline='middle',
-    dx=-10, 
-    dy = -10,
-).encode(
-    y= alt.Y('CumSum:Q', axis=None),
-    # we'll use the percentage as the text
-    text=alt.Text('CumSum:Q', format="0.0%"),
-    color= alt.value("#cb4154")
-)
-# Layer all the elements together 
-st.altair_chart((bars + line + bar_text ).resolve_scale(
-    y = 'independent'
-))
+# st.write("Some regressors give you feature importance for free, and it's valueable to look at these values to see which are most influential. We'll look at the Top 5 here.")
 
 
-st.write("We will rerun the regression again, this time with the fewer features we found and show the results in a plot, as well as an MAE score.")
+# feats = [x for _, x in sorted(zip(regr.feature_importances_,features),reverse=True)]
+# importance = sorted(regr.feature_importances_,reverse=True)
 
-# Including all features under importance threshold
-updated_feats = feats[:thresh_len+1]
+# st.write(list(zip(feats, importance))[:5])
 
-print(updated_feats)
+# dfPlot = pd.DataFrame(list(zip(feats, importance)),
+#                columns =['Features', 'Importance'])
+# dfPlot['CumSum'] = dfPlot['Importance'].cumsum()
 
-# Re-training model with smaller subset of features
-regr = RandomForestRegressor(random_state=42, **opt_params)
+# st.write("Next we'll make a Pareto chart with those features that together make up 90% of the importance out of all of them.")
 
+# # Get features that make up at least this percentage of importance according to the regressor
+# thresh = .9
+# thresh_len = len([x for x in np.cumsum(sorted(regr.feature_importances_,reverse=True)) if x <= thresh])
 
-X_train = train_df[updated_feats]
-y_train = train_df['close_' + str(days_to_predict)]
+# # https://medium.com/analytics-vidhya/creating-a-dual-axis-pareto-chart-in-altair-e3673107dd14
+# sort_order = dfPlot["Features"].tolist()
+# # The base element adds data (the dataframe) to the Chart
+# # The categories of complaints are positioned along the X axis
+# base = alt.Chart(dfPlot.head(thresh_len+1), title="Pareto chart for top " + str(thresh_len+1) + " features from " + which).encode(
+#     x = alt.X("Features:O",sort=sort_order),
+# ).properties (
+# width = 600, 
+# height = 500
+# )
+# # Create the bars with length encoded along the Y axis 
+# bars = base.mark_bar(size = 30).encode(
+#     y = alt.Y("Importance:Q"),
+# ).properties (
+# width = 600
+# )
+# # Create the line chart with length encoded along the Y axis
+# line = base.mark_line(
+#                        strokeWidth= 1.5,
+#                        color = "#cb4154" 
+# ).encode(
+#     y=alt.Y('CumSum:Q',
+#              title='Cumulative Importance',
+#              axis=alt.Axis(format=".0%")   ),
+#     text = alt.Text('CumSum:Q')
+# )
+# # Mark the percentage values on the line with Circle marks
+# points = base.mark_circle(
+#               strokeWidth= 3,
+#               color = "#cb4154" 
+# ).encode(
+#          y=alt.Y('CumSum:Q', axis=None),
+# )
+# # Mark the bar marks with the value text
+# bar_text = bars.mark_text(
+#     align='left',
+#     baseline='middle',
+#     dx=-10,  #the dx and dy can be manipulated to position text
+#     dy = -10, #relative to the bar
+# ).encode(
+#     y= alt.Y('Importance:Q', axis=None),
+#     # we'll use the percentage as the text
+#     text=alt.Text('Importance:Q', format="0.2f"),
+#     color= alt.value("#000000")
+# )
 
-regr.fit(X_train, y_train)
-
-feat_importance = regr.feature_importances_
-
-feats = [x for _, x in sorted(zip(feat_importance,updated_feats),reverse=True)]
-importances = sorted(feat_importance,reverse=True)
-
-train_predictions = regr.predict(X_train) # X has new updated top feature list
-
-date_first_pred_train = start_date_of_train + timedelta(days=days_to_predict)
-
-df_preds_train = pd.DataFrame(zip(pd.date_range(date_first_pred_train, periods=len(train_predictions)).tolist(), train_predictions ))
-df_preds_train.columns = ['date', 'train_pred']
-
-X_test = test_df[updated_feats]
-
-test_predictions = regr.predict(X_test)
-
-date_first_pred_test = start_date_of_test + timedelta(days=days_to_predict)
-
-df_preds_test = pd.DataFrame(zip(pd.date_range(date_first_pred_test, periods=len(test_predictions)).tolist(), test_predictions ))
-df_preds_test.columns = ['date', 'test_pred']
-
-scale = alt.Scale(domain=['Actual Price', 'Predicted Training Price', 'Predicted Test Price'], range=['lightgreen', 'blue', 'orange'])
-
-bdf = df_cm.reset_index()[['date', 'PriceUSD']]
-
-bdf.insert(0, 'ColVal', 'Actual Price')
-with st.echo():
-    actualBTC = alt.Chart(bdf, title="BTC Prediction for " + str(days_to_predict) + " days ahead with " + str(pct_to_train_with) + " Training Set").mark_line().encode(
-        x='date:T',
-        y='PriceUSD:Q',
-        color = alt.Color('ColVal:N', scale=scale)
-    )
-
-    trdf = df_preds_train.copy()
-    trdf.insert(0, 'ColVal', 'Predicted Training Price')
-
-    train_preds_line = alt.Chart(trdf).mark_line().encode(
-        x='date:T',
-        y='train_pred:Q',
-        strokeDash=alt.value([2, 2]),
-        color = alt.Color('ColVal:N', scale=scale)  
-    )
-
-    tsdf = df_preds_test.copy()
-    tsdf.insert(0, 'ColVal', 'Predicted Test Price')
-
-    test_preds_line = alt.Chart(tsdf).mark_line().encode(
-        x='date:T',
-        y='test_pred:Q',
-        strokeDash=alt.value([2, 2]),
-        color = alt.Color('ColVal:N', scale=scale)  
-    )
-
-    rules = alt.Chart(pd.DataFrame({
-    'Date': [start_date_of_test],
-    'color': ['red']
-    })).mark_rule().encode(
-    x='Date:T',
-    color=alt.Color('color:N', scale=None)
-    )
-
-st.write("You can drag and zoom this plot.")
-st.altair_chart((actualBTC + rules + train_preds_line + test_preds_line).properties(
-    width=600,
-    height=400
-).interactive())
-
-st.write("Let's see how we did with an MAE score.")
-
-with st.echo():
-    assert test_df.iloc[days_to_predict:].index[0] == df_preds_test.iloc[:-days_to_predict]['date'][0], "Start dates if TEST not equal"
-    assert test_df.iloc[days_to_predict:].index[-1] == df_preds_test.iloc[:-days_to_predict]['date'].iloc[-1], "End dates if TEST not equal"
-
-    y_true = test_df.iloc[days_to_predict:]['PriceUSD'] # 7/20 - 9/03
-    y_pred = df_preds_test['test_pred'].iloc[:-days_to_predict]
-
-    mae_pred = mean_absolute_error(y_true, y_pred)
-
-st.write("We got an MAE score of: " + str(np.round(mae_pred, 2)) + ". This is the average difference from the true value, which will decrease as the training size percentage increases.")
-
-st.write("Lastly, we'll look at a Residual vs Fit plot to see how well the regressor wctually worked. Ideally you'd see a random distribution round zero here. This is a way to check a suspiciously high R^2 score. If we increase the percentage for the size of size of the training set, the score and plot gets much better.")
-
-plt.clf()
-with st.echo():
-    plt.scatter(y_true.to_numpy() - y_pred,y_pred)
-    plt.title('Residuals versus Fits')
-
-st.pyplot(plt)
+# # Mark the Circle marks with the value text
+# point_text = points.mark_text(
+#     align='left',
+#     baseline='middle',
+#     dx=-10, 
+#     dy = -10,
+# ).encode(
+#     y= alt.Y('CumSum:Q', axis=None),
+#     # we'll use the percentage as the text
+#     text=alt.Text('CumSum:Q', format="0.0%"),
+#     color= alt.value("#cb4154")
+# )
+# # Layer all the elements together 
+# st.altair_chart((bars + line + bar_text ).resolve_scale(
+#     y = 'independent'
+# ))
 
 
-print(f'R^2 Score: {np.round(regr.score(X_train,y_train),4)}')
+# st.write("We will rerun the regression again, this time with the fewer features we found and show the results in a plot, as well as an MAE score.")
+
+# # Including all features under importance threshold
+# updated_feats = feats[:thresh_len+1]
+
+# print(updated_feats)
+
+# # Re-training model with smaller subset of features
+# regr = RandomForestRegressor(random_state=42, **opt_params)
 
 
-# https://statisticsbyjim.com/regression/interpret-r-squared-regression/
+# X_train = train_df[updated_feats]
+# y_train = train_df['close_' + str(days_to_predict)]
 
-text = '''The data in the fitted line plot follow a very low noise relationship, and the R-squared is 98.5%,
- which seems fantastic. However, the regression line consistently under and over-predicts the data along
-  the curve, which is bias. The Residuals versus Fits plot emphasizes this unwanted pattern. 
-  An unbiased model has residuals that are randomly scattered around zero. Non-random residual patterns
-   indicate a bad fit despite a high R2. Always check your residual plots!'''
-plt.clf()
-***/
+# regr.fit(X_train, y_train)
+
+# feat_importance = regr.feature_importances_
+
+# feats = [x for _, x in sorted(zip(feat_importance,updated_feats),reverse=True)]
+# importances = sorted(feat_importance,reverse=True)
+
+# train_predictions = regr.predict(X_train) # X has new updated top feature list
+
+# date_first_pred_train = start_date_of_train + timedelta(days=days_to_predict)
+
+# df_preds_train = pd.DataFrame(zip(pd.date_range(date_first_pred_train, periods=len(train_predictions)).tolist(), train_predictions ))
+# df_preds_train.columns = ['date', 'train_pred']
+
+# X_test = test_df[updated_feats]
+
+# test_predictions = regr.predict(X_test)
+
+# date_first_pred_test = start_date_of_test + timedelta(days=days_to_predict)
+
+# df_preds_test = pd.DataFrame(zip(pd.date_range(date_first_pred_test, periods=len(test_predictions)).tolist(), test_predictions ))
+# df_preds_test.columns = ['date', 'test_pred']
+
+# scale = alt.Scale(domain=['Actual Price', 'Predicted Training Price', 'Predicted Test Price'], range=['lightgreen', 'blue', 'orange'])
+
+# bdf = df_cm.reset_index()[['date', 'PriceUSD']]
+
+# bdf.insert(0, 'ColVal', 'Actual Price')
+# with st.echo():
+#     actualBTC = alt.Chart(bdf, title="BTC Prediction for " + str(days_to_predict) + " days ahead with " + str(pct_to_train_with) + " Training Set").mark_line().encode(
+#         x='date:T',
+#         y='PriceUSD:Q',
+#         color = alt.Color('ColVal:N', scale=scale)
+#     )
+
+#     trdf = df_preds_train.copy()
+#     trdf.insert(0, 'ColVal', 'Predicted Training Price')
+
+#     train_preds_line = alt.Chart(trdf).mark_line().encode(
+#         x='date:T',
+#         y='train_pred:Q',
+#         strokeDash=alt.value([2, 2]),
+#         color = alt.Color('ColVal:N', scale=scale)  
+#     )
+
+#     tsdf = df_preds_test.copy()
+#     tsdf.insert(0, 'ColVal', 'Predicted Test Price')
+
+#     test_preds_line = alt.Chart(tsdf).mark_line().encode(
+#         x='date:T',
+#         y='test_pred:Q',
+#         strokeDash=alt.value([2, 2]),
+#         color = alt.Color('ColVal:N', scale=scale)  
+#     )
+
+#     rules = alt.Chart(pd.DataFrame({
+#     'Date': [start_date_of_test],
+#     'color': ['red']
+#     })).mark_rule().encode(
+#     x='Date:T',
+#     color=alt.Color('color:N', scale=None)
+#     )
+
+# st.write("You can drag and zoom this plot.")
+# st.altair_chart((actualBTC + rules + train_preds_line + test_preds_line).properties(
+#     width=600,
+#     height=400
+# ).interactive())
+
+# st.write("Let's see how we did with an MAE score.")
+
+# with st.echo():
+#     assert test_df.iloc[days_to_predict:].index[0] == df_preds_test.iloc[:-days_to_predict]['date'][0], "Start dates if TEST not equal"
+#     assert test_df.iloc[days_to_predict:].index[-1] == df_preds_test.iloc[:-days_to_predict]['date'].iloc[-1], "End dates if TEST not equal"
+
+#     y_true = test_df.iloc[days_to_predict:]['PriceUSD'] # 7/20 - 9/03
+#     y_pred = df_preds_test['test_pred'].iloc[:-days_to_predict]
+
+#     mae_pred = mean_absolute_error(y_true, y_pred)
+
+# st.write("We got an MAE score of: " + str(np.round(mae_pred, 2)) + ". This is the average difference from the true value, which will decrease as the training size percentage increases.")
+
+# st.write("Lastly, we'll look at a Residual vs Fit plot to see how well the regressor wctually worked. Ideally you'd see a random distribution round zero here. This is a way to check a suspiciously high R^2 score. If we increase the percentage for the size of size of the training set, the score and plot gets much better.")
+
+# plt.clf()
+# with st.echo():
+#     plt.scatter(y_true.to_numpy() - y_pred,y_pred)
+#     plt.title('Residuals versus Fits')
+
+# st.pyplot(plt)
+
+
+# print(f'R^2 Score: {np.round(regr.score(X_train,y_train),4)}')
+
+
+# # https://statisticsbyjim.com/regression/interpret-r-squared-regression/
+
+# text = '''The data in the fitted line plot follow a very low noise relationship, and the R-squared is 98.5%,
+#  which seems fantastic. However, the regression line consistently under and over-predicts the data along
+#   the curve, which is bias. The Residuals versus Fits plot emphasizes this unwanted pattern. 
+#   An unbiased model has residuals that are randomly scattered around zero. Non-random residual patterns
+#    indicate a bad fit despite a high R2. Always check your residual plots!'''
+# plt.clf()
 
 
 
