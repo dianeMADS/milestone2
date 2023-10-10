@@ -1,5 +1,5 @@
 pandas
-numpy
+numpy>=1.21.0
 urllib3
 tsfresh==0.17.0
 six
