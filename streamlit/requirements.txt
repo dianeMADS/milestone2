@@ -1,6 +1,7 @@
 pip==23.2.1
 pandas
 numpy>=1.21.0
+numpy<1.26
 scipy
 urllib3
 tsfresh==0.17.0
