@@ -1,3 +1,14 @@
 pandas
-cython=0.29.28
-cdtw
+urllib3
+tsfresh==0.17.0
+six
+protobuf
+matplotlib
+coinmetrics
+tensorflow
+sktime
+altair
+altair_data_server
+fastdtw
+fastcluster==1.1.27
+dtaidistance==2.2.1
