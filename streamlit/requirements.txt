@@ -15,5 +15,5 @@ sktime
 altair
 altair_data_server
 fastdtw
-fastcluster==1.1.27
+fastcluster
 dtaidistance==2.2.1
