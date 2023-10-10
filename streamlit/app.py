@@ -308,15 +308,11 @@ plt.legend(['train', 'test'], loc='upper left')
 plt.grid() 
 st.pyplot(plt)
 
-st.write("Finally, the plots below provide " + str(coin) + "predictions for multiple window sizes. ")
-st.write("""
-predictions follow the same trend as the actual price values. However, except for the naive prediction model that just assigns t-1 price value to t, the other attempts show a higher mean absolute error (MAE) and give the impression that there is a cap that predictions cannot overtake. MAE was chosen for its simple interpretability, as it has the units of the dependent variable. Even predictions for a 1 day window that could be expected to be similar to the naive prediction screw up during high spikes. In our opinion, this is caused by the nature of the data and the normalization scaler that is set on the basis of training data only, where it is not possible to anticipate the spike observed in mid 2020. 
-"""
-)
+st.write("Finally, the plots below provide " + str(coin) + " predictions for multiple window sizes. Predictions follow the same trend as the actual price values. However, except for the naive prediction model that just assigns t-1 price value to t, the other attempts show a higher mean absolute error (MAE) and give the impression that there is a cap that predictions cannot overtake. MAE was chosen for its simple interpretability, as it has the units of the dependent variable. Even predictions for a 1 day window that could be expected to be similar to the naive prediction screw up during high spikes. In our opinion, this is caused by the nature of the data and the normalization scaler that is set on the basis of training data only, where it is not possible to anticipate the spike observed in mid 2020.")
 
 st.write(
 """
-Expanding the training set to encompass this might create other issues because this will represent 96 to 97% of the data; using only 3% of data for validation would certainly make MAE noisy. Another idea to fix the scaler was to add a very big, temporary value when fitting (e.g. $80000); this didn’t fix the issue but playing with larger windows that could maintain in memory spikes (even much smaller) from the past until current prediction cases, and other coins where similar peaks had been experienced in training data greatly improved MAE (i.e. approximately $2000 for 200 days) and almost perfect predictions for LTC. The reader would certainly want to refer to the notebook for those improvements.
+Expanding the training set to encompass this might create other issues because this will represent 96 to 97% of the data; using only 3% of data for validation would certainly make MAE noisy. Another idea to fix the scaler was to add a very big, temporary value when fitting (e.g. st.sidebar.number_input('80000', format='{:,d}')); this didn’t fix the issue but playing with larger windows that could maintain in memory spikes (even much smaller) from the past until current prediction cases, and other coins where similar peaks had been experienced in training data greatly improved MAE (i.e. approximately $2000 for 200 days) and almost perfect predictions for LTC. The reader would certainly want to refer to the notebook for those improvements.
 """
 )
 
