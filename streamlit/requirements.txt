@@ -17,3 +17,4 @@ altair_data_server
 fastdtw
 fastcluster
 dtaidistance==2.2.1
+scikit-learn
