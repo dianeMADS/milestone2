@@ -1,5 +1,5 @@
 pandas
-Cython
+cython
 urllib3
 tsfresh==0.17.0
 six
