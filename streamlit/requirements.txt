@@ -18,3 +18,4 @@ fastdtw
 fastcluster
 dtaidistance==2.2.1
 scikit-learn
+sklearn
