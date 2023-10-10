@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 import pandas as pd
 import altair as alt
 import numpy as np
-from cdtw import pydtw
+#from cdtw import pydtw
 from numpy import savetxt, loadtxt
 
 import scipy.spatial.distance as sd
