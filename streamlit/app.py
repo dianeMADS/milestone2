@@ -482,6 +482,7 @@ with st.echo():
         opt_params = {'criterion': 'mae', 'max_depth': 11, 'max_features': 'auto', 'n_estimators': 130}
 
 st.write("We'll call the regressor, unpacking the parameters in the dictionary above. This may take a few seconds, the regressor is actually running right now.")
+/***
 with st.echo():
     regr = RandomForestRegressor(random_state=42, **opt_params)
     regr.fit(X_train, y_train)
@@ -685,7 +686,7 @@ text = '''The data in the fitted line plot follow a very low noise relationship,
   An unbiased model has residuals that are randomly scattered around zero. Non-random residual patterns
    indicate a bad fit despite a high R2. Always check your residual plots!'''
 plt.clf()
-
+***/
 
 
 
