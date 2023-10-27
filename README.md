@@ -2,7 +2,7 @@ For our Milestone 2 project we had two tasks, supervised learning and unsupervis
 
 For data collection, we used Coinmetrics and LunarCrush, which cover over a thousand cryptocurrencies providing real-time, daily & weekly updates and historical data, regarding market volume, market capitalization, transactions, coins in wallet, social media data, etc. Coinmetrics archives cryptocurrencies since January 2010, meaning data are available almost from creation for almost all existing coins. LunarCrush makes available the last two years worth of data, mostly having to do with social media. Both Coinmetrics and LunarCrush provide free APIs that facilitate historical data downloading.
 
-[pdf report](report/Milestone 2 Report - Onguetou - Nikolsky.pdf)
+[pdf report](https://github.com/dianeMADS/milestone2/blob/main/report/MADS-milestone2-Onguetou-Nikolsky.pdf)
 
 [streamlit interactive and additional visualizations](https://dianemads-milestone2-i4rryagqxtyey26mafg5eb.streamlit.app/)
 
