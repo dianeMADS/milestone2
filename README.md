@@ -4,7 +4,6 @@ For data collection, we used Coinmetrics and LunarCrush, which cover over a thou
 
 [pdf report](report/Milestone 2 Report - Onguetou - Nikolsky.pdf)
 
-
 [streamlit interactive and additional visualizations](https://dianemads-milestone2-i4rryagqxtyey26mafg5eb.streamlit.app/)
 
 
